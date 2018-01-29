@@ -2,7 +2,7 @@ import pickle
 import argparse
 import nltk
 
-from data import  Utterance
+from data import Utterance
 
 modern = ["<unk>", "<s>", "</s>"]
 shakespeare = ["<unk>", "<s>", "</s>"]
@@ -12,14 +12,13 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Show the contents of a pickle jar')
     parser.add_argument('--file', help='the pickle file to open', required=True)
 
-
     args = parser.parse_args()
 
     with open(args.file, 'rb') as f:
         count = 0
         while True:
             try:
-                utterance = pickle.load(f) # type: Utterance
+                utterance = pickle.load(f)  # type: Utterance
 
                 for word in nltk.word_tokenize(utterance.shakespeare):
                     if not word in shakespeare:

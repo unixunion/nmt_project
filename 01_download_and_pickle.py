@@ -1,11 +1,11 @@
 import sys
-from lxml import html
 
 from data import get_and_cache_page, urls, get_next_link
 
 
 def spider(start_url):
     page = get_and_cache_page(start_url)
+    sys.stdout.write('.')
     sys.stdout.flush()
     next_url = get_next_link(page)
     if next_url:

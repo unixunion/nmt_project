@@ -8,6 +8,10 @@ from lxml import html
 
 import requests
 
+test_urls = ('http://nfs.sparknotes.com/antony-and-cleopatra/page_2.html',
+        'http://nfs.sparknotes.com/asyoulikeit/page_2.html',
+        'http://nfs.sparknotes.com/coriolanus/page_2.html')
+
 urls = ('http://nfs.sparknotes.com/antony-and-cleopatra/page_2.html',
         'http://nfs.sparknotes.com/asyoulikeit/page_2.html',
         'http://nfs.sparknotes.com/coriolanus/page_2.html',
@@ -41,6 +45,11 @@ def get_next_link(data):
         return link.attrib['href']
     except IndexError as e:
         return None
+
+
+
+def encode(data):
+    return "{}{}".format(data, "\n")
 
 
 def get_and_cache_page(myurl):
