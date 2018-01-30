@@ -3,14 +3,13 @@ import hashlib
 import pickle
 import re
 
-import sys
 from lxml import html
 
 import requests
 
 test_urls = ('http://nfs.sparknotes.com/antony-and-cleopatra/page_2.html',
-        'http://nfs.sparknotes.com/asyoulikeit/page_2.html',
-        'http://nfs.sparknotes.com/coriolanus/page_2.html')
+             'http://nfs.sparknotes.com/asyoulikeit/page_2.html',
+             'http://nfs.sparknotes.com/coriolanus/page_2.html')
 
 urls = ('http://nfs.sparknotes.com/antony-and-cleopatra/page_2.html',
         'http://nfs.sparknotes.com/asyoulikeit/page_2.html',
@@ -35,7 +34,8 @@ urls = ('http://nfs.sparknotes.com/antony-and-cleopatra/page_2.html',
         'http://nfs.sparknotes.com/tempest/page_2.html',
         'http://nfs.sparknotes.com/twelfthnight/page_2.html',
         'http://nfs.sparknotes.com/twogentlemen/page_2.html',
-        'http://nfs.sparknotes.com/winterstale/page_2.html')
+        'http://nfs.sparknotes.com/winterstale/page_2.html',
+        'http://nfs.sparknotes.com/sonnets/sonnet_1.html')
 
 
 def get_next_link(data):
@@ -47,9 +47,8 @@ def get_next_link(data):
         return None
 
 
-
-def encode(data):
-    return "{}{}".format(data, "\n")
+def encode(myd):
+    return "{}{}".format(myd, "\n")
 
 
 def get_and_cache_page(myurl):
@@ -84,6 +83,8 @@ def clean(data):
     str = str.replace('\t', ' ')
     str = str.replace('\n', ' ')
     str = str.replace('\r', ' ')
+    str = str.replace('"', ' ')
+    str = str.replace("'", ' ')
     str = re.sub(' +', ' ', str)
     return str
 
@@ -107,6 +108,5 @@ class Utterance:
         return str(self.__repr__())
 
     @staticmethod
-    def build(data_dict : dict):
+    def build(data_dict: dict):
         return Utterance(data_dict['speaker'], data_dict['shakespeare'], data_dict['modern'], data_dict['url'])
-

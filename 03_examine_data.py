@@ -6,7 +6,7 @@ if __name__ == "__main__":
         while True:
             try:
                 utterance = pickle.load(f)
-                if count % 1000 == 0:
+                if count % 100 == 0:
                     print()
                     print(utterance)
                 count += 1

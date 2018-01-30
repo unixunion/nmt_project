@@ -25,7 +25,7 @@ if __name__ == "__main__":
                 try:
                     utterance = Utterance.build(pickle.load(f))
 
-                    cleaned_speaker = utterance.speaker[0]
+                    cleaned_speaker = utterance.speaker
                     cleaned_shakespeare = clean(utterance.shakespeare)
                     cleaned_modern = clean(utterance.modern)
 

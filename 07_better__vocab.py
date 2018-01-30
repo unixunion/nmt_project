@@ -1,4 +1,3 @@
-import sys
 from tensorflow.contrib import learn
 import numpy as np
 import pickle

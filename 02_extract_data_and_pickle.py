@@ -12,31 +12,31 @@ def process(data, url=None):
     for e in utterances:
         # for original lines
         speaker = e.xpath('td[@class="noFear-left"]/b/text()')
+        #
+        # if speaker:
 
-        if speaker:
+            # print("Speaker: {}".format(speaker))
 
-            print("Speaker: {}".format(speaker))
+        original_line = ""
+        # for element in e.xpath('td[@class="noFear-left"]/div[@class="original-line"]/text()'):
+        for element in e.xpath('td[@class="noFear-left"]/div[@class="original-line"]'):
+            etree.strip_tags(element, 'a')
+            original_line = original_line + ' ' + element.text_content()
 
-            original_line = ""
-            # for element in e.xpath('td[@class="noFear-left"]/div[@class="original-line"]/text()'):
-            for element in e.xpath('td[@class="noFear-left"]/div[@class="original-line"]'):
-                etree.strip_tags(element, 'a')
-                original_line = original_line + ' ' + element.text_content()
+        original_line = clean(original_line)
+        print("Shakespeare: {}".format(original_line))
 
-            original_line = clean(original_line)
-            print("Shakespeare: {}".format(original_line))
+        modern_line = ""
+        for element in e.xpath('td[@class="noFear-right"]/div[@class="modern-line"]'):
+            etree.strip_elements(element, 'span', with_tail=False)
+            etree.strip_tags(element, 'a')
+            modern_line = modern_line + ' ' + element.text_content()
 
-            modern_line = ""
-            for element in e.xpath('td[@class="noFear-right"]/div[@class="modern-line"]'):
-                etree.strip_elements(element, 'span', with_tail=False)
-                etree.strip_tags(element, 'a')
-                modern_line = modern_line + ' ' + element.text_content()
+        modern_line = clean(modern_line)
+        print("Modern: {}".format(modern_line))
 
-            modern_line = clean(modern_line)
-            print("Modern: {}".format(modern_line))
-
-            with open('utterances.pickle', 'a+b') as f:
-                pickle.dump({"speaker": speaker, "shakespeare": original_line, "modern": modern_line, "url": url}, f)
+        with open('utterances.pickle', 'a+b') as f:
+            pickle.dump({"speaker": speaker, "shakespeare": original_line, "modern": modern_line, "url": url}, f)
 
 
 def spider(start_url):

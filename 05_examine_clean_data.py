@@ -1,8 +1,6 @@
 import pickle
 import argparse
 
-from data import Utterance
-
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Show the contents of a pickle jar')
@@ -20,6 +18,7 @@ if __name__ == "__main__":
                     print("speaker: {}".format(utterance.speaker))
                     print("shakespeare: {}".format(utterance.shakespeare))
                     print("modern: {}".format(utterance.modern))
+                    print("url: {}".format(utterance.url))
                 count += 1
             except EOFError as e:
                 print("End of file, samples: {}".format(count))
