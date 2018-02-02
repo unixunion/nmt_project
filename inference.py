@@ -7,7 +7,10 @@ import time
 sys.path.append(os.path.realpath(os.path.dirname(__file__)))
 sys.path.append(os.path.realpath(os.path.dirname(__file__)) + "/nmt")
 import argparse
-from setup.settings import hparams, out_dir, preprocessing
+from settings import hparams, out_dir, preprocessing
+out_dir = os.path.join(out_dir, "best_bleu")
+print(out_dir)
+
 from nmt import nmt
 import tensorflow as tf
 from core.tokenizer import tokenize, detokenize, apply_bpe, apply_bpe_load
@@ -16,12 +19,14 @@ import colorama
 
 current_stdout = None
 
-import discord
-client = discord.Client()
+# import discord
+# client = discord.Client()
 
 import logging
-logging.basicConfig(stream=sys.stdout ,format='[%(filename)s:%(lineno)s %(levelname)s %(message)s')
+
+logging.basicConfig(stream=sys.stdout, format='[%(filename)s:%(lineno)s %(levelname)s %(message)s')
 logging.getLogger().setLevel(logging.INFO)
+
 
 # That will not be as easy as training script, as code relies on input and output file in deep levels of code
 # It also outputs massive amount of info
@@ -58,6 +63,7 @@ def do_start_inference(out_dir, hparams):
     ## Train / Decode
     if not tf.gfile.Exists(flags.out_dir):
         nmt.utils.print_out("# Model folder (out_dir) doesn't exist")
+        print("no model")
         sys.exit()
 
     # Load hparams from model folder
@@ -262,51 +268,48 @@ def process_questions(questions, include_blacklisted=True):
     return prepared_answers_list
 
 
-
-@client.event
-async def on_ready():
-    print('Logged in as')
-    print(client.user.name)
-    print(client.user.id)
-    print('------')
-
-
-
+# @client.event
+# async def on_ready():
+#     print('Logged in as')
+#     print(client.user.name)
+#     print(client.user.id)
+#     print('------')
+#
+#
 
 
-def remove_self_mentions(content):
-    logging.info("remove_self_mentions from: %s" % content)
-    return re.sub(r'<@%s>' % client.user.id, '', content).strip()
-
-
-@client.event
-async def on_message(message):
-    logging.info(message.content)
-
-    if message.channel.is_private and message.author.id != client.user.id:
-        result = process_questions(message.content)[0]
-        best = "Shakespeare: {}".format(result['answers'][result['best_score']])
-        await client.send_message(message.channel, best)
-    elif client.user.id in message.raw_mentions:
-        altered_content = remove_self_mentions(message.content)
-        result = process_questions(altered_content)[0]
-        best = "Shakespeare: {}".format(result['answers'][result['best_score']])
-        await client.send_message(message.channel, best)
-    else:
-        pass
-
+# def remove_self_mentions(content):
+#     logging.info("remove_self_mentions from: %s" % content)
+#     return re.sub(r'<@%s>' % client.user.id, '', content).strip()
+#
+#
+# @client.event
+# async def on_message(message):
+#     logging.info(message.content)
+#
+#     if message.channel.is_private and message.author.id != client.user.id:
+#         result = process_questions(message.content)[0]
+#         best = "Shakespeare: {}".format(result['answers'][result['best_score']])
+#         await client.send_message(message.channel, best)
+#     elif client.user.id in message.raw_mentions:
+#         altered_content = remove_self_mentions(message.content)
+#         result = process_questions(altered_content)[0]
+#         best = "Shakespeare: {}".format(result['answers'][result['best_score']])
+#         await client.send_message(message.channel, best)
+#     else:
+#         pass
 
 
 # interactive mode
 if __name__ == "__main__":
 
-    while True:
-        try:
-            client.run(os.environ['DISCORD_KEY'])
-        except Exception as e:
-            print("error", e)
-            time.sleep(1)
-            pass
+    # while True:
+    #     try:
+    #         client.run(os.environ['DISCORD_KEY'])
+    #     except Exception as e:
+    #         print("error", e)
+    #         time.sleep(1)
+    #         pass
 
     print("post client run")
 
@@ -320,16 +323,12 @@ if __name__ == "__main__":
         for answers in answers_list:
             print(answers['answers'][answers['best_index']])
 
-        sys.exit()
-
     # Interactive mode
     print("\n\nStarting interactive mode (first response will take a while):")
     colorama.init()
 
     # QAs
     while True:
-
-
 
         question = input("\n> ")
         answers = process_questions(question)[0]
@@ -340,5 +339,6 @@ if __name__ == "__main__":
             print("best: {}".format(answers['answers'][answers['best_score']]))
             for i, _ in enumerate(answers['scores']):
                 print("{}- {}{} ({})".format(
-                    colorama.Fore.GREEN if answers['scores'][i] == 1 else colorama.Fore.YELLOW if answers['scores'][i] == 0 else colorama.Fore.RED,
+                    colorama.Fore.GREEN if answers['scores'][i] == 1 else colorama.Fore.YELLOW if answers['scores'][
+                                                                                                      i] == 0 else colorama.Fore.RED,
                     answers['answers'][i], colorama.Fore.RESET, answers['scores'][i]))

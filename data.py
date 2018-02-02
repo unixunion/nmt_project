@@ -86,7 +86,90 @@ def clean(data):
     str = str.replace('"', ' ')
     str = str.replace("'", ' ')
     str = re.sub(' +', ' ', str)
-    return str
+    return str.strip()
+
+
+def match(d1, d2):
+    d1_vocab = {}
+    d2_vocab = {}
+    total_vocab = []
+    common_vocab = []
+    uncommon_vocab = []
+
+    d1_tokens = re.split(" ", d1)
+    d2_tokens = re.split(" ", d2)
+
+    # o = len(d1_tokens)-len(d2_tokens)
+    # if o < -20:
+    #     print("{}:{}-{} '{}'\n vs '{}'".format(o, len(d1), len(d2), d1, d2))
+
+    for w in d1_tokens:
+        d1_vocab[w] = w
+        if not w in total_vocab:
+            total_vocab.append(w)
+    for w in d2_tokens:
+        d2_vocab[w] = w
+        if not w in total_vocab:
+            total_vocab.append(w)
+
+    for w in d1_vocab:
+        if w in d2_vocab:
+            common_vocab.append(w)
+        else:
+            uncommon_vocab.append(w)
+
+
+    for w in d2_vocab:
+        if w in d1_vocab:
+            if not w in common_vocab:
+                common_vocab.append(w)
+        else:
+            uncommon_vocab.append(w)
+
+    if len(common_vocab) > 0:
+        return len(common_vocab)/len(total_vocab)
+    else:
+        return 0
+
+
+def clean_and_split(data):
+    s = clean(data)
+    lines = re.split("\.\s", s)
+    response = ""
+    count = 0
+    for line in lines:
+        if count == 0:
+            response = line
+        else:
+            response = response + "\n" + line
+        count += 1
+    return count, response
+
+
+def super_clean(data):
+    result = "{} ".format(data)
+    result = result.replace('\xa0', ' ')
+    result = result.replace('\u2003', ' ')
+    result = re.sub('\[.*\]', ' ', result)
+    result = re.sub('\(.*\)', ' ', result)
+    result = re.sub('"', ' ', result)
+    result = re.sub("\.", " . ", result)
+    result = re.sub("\n", " ", result)
+    result = re.sub("\r", " ", result)
+    result = re.sub(",", " , ", result)
+    result = re.sub("\?", " ", result)
+    result = re.sub(";", " ", result)
+    result = re.sub(":", " ", result)
+    result = re.sub("!", " ", result)
+    result = re.sub(":", " ", result)
+    result = re.sub("-", " ", result)
+    result = re.sub("—", " ", result)
+    result = re.sub('”', " ", result)
+    result = re.sub('“', " ", result)
+    result = re.sub('"', ' ', result)
+    result = re.sub("'", ' ', result)
+    result = re.sub(' +', ' ', result)
+    return result.lower()
 
 
 class Utterance:

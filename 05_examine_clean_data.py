@@ -13,7 +13,7 @@ if __name__ == "__main__":
         while True:
             try:
                 utterance = pickle.load(f)
-                if count % 1000 == 0:
+                if count % 123 == 0:
                     print()
                     print("speaker: {}".format(utterance.speaker))
                     print("shakespeare: {}".format(utterance.shakespeare))

@@ -54,7 +54,6 @@ def spider(start_url):
 
 
 if __name__ == "__main__":
-    # urls = ('http://nfs.sparknotes.com/sonnets/sonnet_1.html',)
     pool = Pool(processes=8)
     r = pool.map_async(spider, urls)
     r.wait()

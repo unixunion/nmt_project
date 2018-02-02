@@ -7,14 +7,38 @@ from data import Utterance
 # creation of the Utterance class
 
 
-def clean(data : str):
-    result = "{}".format(data)
+# def clean(data : str):
+#     result = "{}".format(data)
+#     result = result.replace('\xa0', ' ')
+#     result = result.replace('\u2003', ' ')
+#     result = re.sub('\[.*\]', ' ', result)
+#     result = re.sub('\(.*\)', ' ', result)
+#     result = re.sub(' +', ' ', result)
+#     return result.strip()
+
+
+def clean(data: str):
+    result = "{} ".format(data)
     result = result.replace('\xa0', ' ')
     result = result.replace('\u2003', ' ')
     result = re.sub('\[.*\]', ' ', result)
     result = re.sub('\(.*\)', ' ', result)
+    result = re.sub('"', ' ', result)
+    result = re.sub("\n", " ", result)
+    result = re.sub("\r", " ", result)
+    result = re.sub("\?", " ", result)
+    result = re.sub(";", " ", result)
+    result = re.sub(":", " ", result)
+    result = re.sub("!", " ", result)
+    result = re.sub(":", " ", result)
+    result = re.sub("-", " ", result)
+    result = re.sub("—", " ", result)
+    result = re.sub('”', " ", result)
+    result = re.sub('“', " ", result)
     result = re.sub(' +', ' ', result)
-    return result.strip()
+    # return result.lower()
+    return result
+
 
 
 if __name__ == "__main__":
