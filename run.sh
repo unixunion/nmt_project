@@ -11,4 +11,5 @@ python -m nmt.nmt.nmt \
     --num_units=1024 \/
     --dropout=0.2 \
     --metrics=bleu \
-    --learning_rate=0.1
+    --learning_rate=0.01 \
+    override_loaded_hparams

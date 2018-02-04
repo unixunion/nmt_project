@@ -83,6 +83,8 @@ def clean(data):
     str = str.replace('\t', ' ')
     str = str.replace('\n', ' ')
     str = str.replace('\r', ' ')
+    str = str.replace(",", " , ")
+    str = str.replace(".", " . ")
     str = str.replace('"', ' ')
     str = str.replace("'", ' ')
     str = re.sub(' +', ' ', str)

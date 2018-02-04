@@ -42,7 +42,7 @@ preprocessing = {
     'embedded_detokenizer': True,
 
     # Test sets' max size
-    'test_size': 100,
+    'test_size': 1000,
 
     ## You don't need to change anything below (internal settings)
 
@@ -83,16 +83,16 @@ hparams = {
     'num_train_steps': 500000,
     'num_layers': 2,
     'num_units': 512,
-#    'batch_size': 128,
+   'batch_size': 128,
 #    'override_loaded_hparams': True,
-#    'decay_scheme': 'luong234'
+#     'decay_scheme': 'luong234',
 #    'residual': True,
     'optimizer': 'adam',
     'encoder_type': 'bi',
     'learning_rate':0.001,
     'beam_width': 20,
-    'length_penalty_weight': 1.0,
-    'num_translations_per_input': 20,
+    'length_penalty_weight': 0,
+    'num_translations_per_input': 1,
     'num_keep_ckpts': 5,
 
     ## You don't need to change anything below (internal settings)

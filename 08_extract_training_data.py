@@ -18,20 +18,20 @@ dev = 0
 def split_and_write(file1, data1, file2, data2):
     with open(file1, "at") as f1:
         with open(file2, "at") as f2:
-            z = match(data1, data2)
-            if z > 0.05:
-                d1_count, d1_cleaned = clean_and_split(data1)
-                d2_count, d2_cleaned = clean_and_split(data2)
-                if (d1_count == d2_count):
-                    f1.write(encode(d1_cleaned))
-                    f2.write(encode(d2_cleaned))
-                else:
-                    f1.write(encode(clean(data1)))
-                    f2.write(encode(clean(data2)))
-            else:
-                print("'{}' unlike '{}'\n".format(data1, data2))
-                f1.write(encode(clean(data1)))
-                f2.write(encode(clean(data2)))
+            # z = match(data1, data2)
+            # if z > 0.05:
+            #     d1_count, d1_cleaned = clean_and_split(data1)
+            #     d2_count, d2_cleaned = clean_and_split(data2)
+            #     if (d1_count == d2_count):
+            #         f1.write(encode(d1_cleaned))
+            #         f2.write(encode(d2_cleaned))
+            #     else:
+            #         f1.write(encode(clean(data1)))
+            #         f2.write(encode(clean(data2)))
+            # else:
+            # print("'{}' unlike '{}'\n".format(data1, data2))
+            f1.write(encode(clean(data1)))
+            f2.write(encode(clean(data2)))
 
 
 with open("utterances-clean.pickle", "rb") as f:
